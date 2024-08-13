@@ -1,11 +1,8 @@
 let gameSeq = [];
 let userSeq = [];
-
 let btns = ["yellow", "red", "purple", "green"];
-
 let started = false;
 let level = 0;
-
 let h2 = document.querySelector("h2");
 
 function startGame() {
@@ -16,22 +13,18 @@ function startGame() {
   }
 }
 
-// Handle both keypress and touchstart for starting the game
+// Handle keypress and touchstart for starting the game
 document.addEventListener("keypress", startGame);
 document.addEventListener("touchstart", startGame, { once: true });
 
 function gameFlash(btn) {
   btn.classList.add("flash");
-  setTimeout(function () {
-    btn.classList.remove("flash");
-  }, 250);
+  setTimeout(() => btn.classList.remove("flash"), 250);
 }
 
 function userFlash(btn) {
   btn.classList.add("userflash");
-  setTimeout(function () {
-    btn.classList.remove("userflash");
-  }, 250);
+  setTimeout(() => btn.classList.remove("userflash"), 250);
 }
 
 function levelUp() {
@@ -47,15 +40,15 @@ function levelUp() {
 }
 
 function checkAns(idx) {
-  if (userSeq[idx] === gameSeq[idx]) { 
-    if (userSeq.length === gameSeq.length) { 
+  if (userSeq[idx] === gameSeq[idx]) {
+    if (userSeq.length === gameSeq.length) {
       setTimeout(levelUp, 1000);
     }
   } else {
-    h2.innerHTML = `Game Over! Your score was <b>${level}</b> <br>Press any key to start`;
+    h2.innerHTML = `Game Over! Your score was <b>${level}</b> <br>Press any key or tap the screen to start again`;
     document.querySelector("body").style.backgroundColor = "red";
-    setTimeout(function () {
-      document.querySelector("body").style.backgroundColor = "white";
+    setTimeout(() => {
+      document.querySelector("body").style.backgroundColor = "#2c3e50";
     }, 150);
     reset();
   }
@@ -71,16 +64,16 @@ function btnPress(event) {
   checkAns(userSeq.length - 1);
 }
 
-// Add event listeners for both click and touchstart
+// Add event listeners for button presses
 let allBtns = document.querySelectorAll(".btn");
-for (let btn of allBtns) { 
+for (let btn of allBtns) {
   btn.addEventListener("click", btnPress);
-  btn.addEventListener("touchstart", btnPress);
+  btn.addEventListener("touchstart", btnPress, { passive: true });
 }
 
 function reset() {
   started = false;
   gameSeq = [];
   userSeq = [];
-  level = 0; 
+  level = 0;
 }
