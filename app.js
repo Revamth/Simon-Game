@@ -8,13 +8,17 @@ let level = 0;
 
 let h2 = document.querySelector("h2");
 
-document.addEventListener("keypress", function () {
+function startGame() {
   if (!started) {
     document.querySelector("body").style.backgroundColor = "#2c3e50";
     started = true;
     levelUp();
   }
-});
+}
+
+// Handle both keypress and touchstart for starting the game
+document.addEventListener("keypress", startGame);
+document.addEventListener("touchstart", startGame, { once: true });
 
 function gameFlash(btn) {
   btn.classList.add("flash");
@@ -57,19 +61,21 @@ function checkAns(idx) {
   }
 }
 
-function btnPress() {
+function btnPress(event) {
   let btn = this;
   userFlash(btn);
 
-  let userColor = btn.getAttribute("id"); 
+  let userColor = btn.getAttribute("id");
   userSeq.push(userColor);
 
   checkAns(userSeq.length - 1);
 }
 
+// Add event listeners for both click and touchstart
 let allBtns = document.querySelectorAll(".btn");
 for (let btn of allBtns) { 
   btn.addEventListener("click", btnPress);
+  btn.addEventListener("touchstart", btnPress);
 }
 
 function reset() {
